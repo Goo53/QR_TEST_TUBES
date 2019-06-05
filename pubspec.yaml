@@ -1,0 +1,24 @@
+name: testwidgets1_0
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  path_provider: 0.4.1
+  barcode_scan: ^0.0.4
+  qr_flutter: ^2.0.0
+  dynamic_theme: ^1.0.0
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
