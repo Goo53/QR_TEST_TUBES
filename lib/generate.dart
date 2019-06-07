@@ -7,6 +7,9 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = new Uuid();
 
 class GenerateScreen extends StatefulWidget {
 
@@ -26,6 +29,9 @@ class GenerateScreenState extends State<GenerateScreen> {
   final TextEditingController _textController =  TextEditingController();
 
   @override
+  var _newid = uuid.v1();
+  // each time we click 'CREATE NEW QR CODE' we are creating new unique time-based ID
+  // which is printed later on and is also base of our QR code
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -80,13 +86,7 @@ class GenerateScreenState extends State<GenerateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                    child:  TextField(
-                      controller: _textController,
-                      decoration:  InputDecoration(
-                        hintText: "Enter a custom message",
-                        errorText: _inputErrorText,
-                      ),
-                    ),
+                    child:  Text("ID : $_newid "),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -109,7 +109,7 @@ class GenerateScreenState extends State<GenerateScreen> {
               child: RepaintBoundary(
                 key: globalKey,
                 child: QrImage(
-                  data: _dataString,
+                  data: _newid,
                   size: 0.1 * bodyHeight,
                   onError: (ex) {
                     print("[QR] ERROR - $ex");
