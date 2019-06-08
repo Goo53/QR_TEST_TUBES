@@ -24,14 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: showChooser,
           child: Text('Theme',style: TextStyle(fontSize: 20) ),),),
     Container(padding: const EdgeInsets.all(32), child: Text('whatever', style: TextStyle(fontSize:28.0),),),
-    Container(padding: const EdgeInsets.all(32), child: Text('log in/out', style: TextStyle(fontSize:28.0),),),
-],),);},),);}
+    Container(padding: const EdgeInsets.all(32), child: Text('log in/out', style: TextStyle(fontSize:28.0),),),],),);},),);}
 
-void showChooser() {showDialog<void>(context: context,builder: (context) {
-  return BrightnessSwitcherDialog(onSelectedTheme: (brightness) {DynamicTheme.of(context).setBrightness(brightness);
-},);});}
+  void showChooser() {showDialog<void>(context: context,builder: (context) {
+    return BrightnessSwitcherDialog(onSelectedTheme: (brightness) {DynamicTheme.of(context).setBrightness(brightness);},);});}
 
-void changeBrightness() {DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark
+  void changeBrightness() {DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark
     ? Brightness.light : Brightness.dark);}
 
 
@@ -40,8 +38,7 @@ void changeBrightness() {DynamicTheme.of(context).setBrightness(Theme.of(context
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],
-      ),
+        actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -57,18 +54,4 @@ void changeBrightness() {DynamicTheme.of(context).setBrightness(Theme.of(context
             Container(padding: const EdgeInsets.all(32), child: RaisedButton(
                 onPressed: null,
                 child: Text('SEARCH',style: TextStyle(fontSize: 20) ),),),
-            ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.insert_drive_file), title: Text("Tab 1")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart), title: Text("Tab 2")),
-        ],
-      ),
-
-    );
-  }
-}
+                            ],),),);}}
