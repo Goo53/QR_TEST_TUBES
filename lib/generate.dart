@@ -67,28 +67,22 @@ _contentWidget() {
 
       Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField( controller: _thicknessController,
-            decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),onSaved: (String value) {},
-            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+            decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),)),],),),
 
       Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _layersController,
-            decoration: const InputDecoration(hintText: 'e.g. 35',),onSaved: (String value) {},
-            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+            decoration: const InputDecoration(hintText: 'e.g. 35',),)),],),),
 
       Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _descriptionController,
-            decoration: const InputDecoration(hintText: 'Place your comment here',),onSaved: (String value) {},
-            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+            decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
 
       Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _authorController,
-            decoration: const InputDecoration(hintText: 'e.g. Goose',),onSaved: (String value) {},
-            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
-
-
+            decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
 
       Expanded(child:  Center(child: RepaintBoundary(key: globalKey,
-            child: QrImage(data: _newid, size: 0.2 * bodyHeight,
+            child: QrImage(data: _newid, size: 0.3 * bodyHeight,
               onError: (ex) {print("[QR] ERROR - $ex");setState((){
               _inputErrorText = "Error! Maybe your input value is too long?";});},),),),),
 
