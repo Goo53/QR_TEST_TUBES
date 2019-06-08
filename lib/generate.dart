@@ -11,14 +11,9 @@ import 'package:uuid/uuid.dart';
 
 var uuid = new Uuid();
 
-class GenerateScreen extends StatefulWidget {
-
-  @override
-  State<StatefulWidget> createState() => GenerateScreenState();
-}
+class GenerateScreen extends StatefulWidget {@override State<StatefulWidget> createState() => GenerateScreenState();}
 
 class GenerateScreenState extends State<GenerateScreen> {
-
   static const double _topSectionTopPadding = 50.0;
   static const double _topSectionBottomPadding = 20.0;
   static const double _topSectionHeight = 50.0;
@@ -30,22 +25,16 @@ class GenerateScreenState extends State<GenerateScreen> {
 
   @override
   var _newid = uuid.v1();
+  var now = new DateTime.now();
   // each time we click 'CREATE NEW QR CODE' we are creating new unique time-based ID
   // which is printed later on and is also base of our QR code
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('QR Code Generator'),
+    return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: _captureAndSharePng,
-          )
-        ],
-      ),
+          IconButton(icon: Icon(Icons.share),onPressed: _captureAndSharePng,)],),
       body: _contentWidget(),
-    );
-  }
+
+    );}
 
   Future<void> _captureAndSharePng() async {
     try {
@@ -60,69 +49,55 @@ class GenerateScreenState extends State<GenerateScreen> {
 
       final channel = const MethodChannel('channel:me.alfian.share/share');
       channel.invokeMethod('shareFile', 'image.png');
+} catch(e) {print(e.toString());}}
+_contentWidget() {
+  final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
+  return  Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  Text("$_newid " ,style: TextStyle(fontSize: 16)),),],),),
 
-    } catch(e) {
-      print(e.toString());
-    }
-  }
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
 
-  _contentWidget() {
-    final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
-    return  Container(
-      color: const Color(0xFFFFFFFF),
-      child:  Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              top: _topSectionTopPadding,
-              left: 20.0,
-              right: 10.0,
-              bottom: _topSectionBottomPadding,
-            ),
-            child:  Container(
-              height: _topSectionHeight,
-              child:  Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    child:  Text("ID : $_newid "),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child:  FlatButton(
-                      child:  Text("SUBMIT"),
-                      onPressed: () {
-                        setState((){
-                          _dataString = _textController.text;
-                          _inputErrorText = null;
-                        });
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child:  Center(
-              child: RepaintBoundary(
-                key: globalKey,
-                child: QrImage(
-                  data: _newid,
-                  size: 0.1 * bodyHeight,
-                  onError: (ex) {
-                    print("[QR] ERROR - $ex");
-                    setState((){
-                      _inputErrorText = "Error! Maybe your input value is too long?";
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  TextFormField(
+            decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),onSaved: (String value) {},
+            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  TextFormField(
+            decoration: const InputDecoration(hintText: 'e.g. 35',),onSaved: (String value) {},
+            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  TextFormField(
+            decoration: const InputDecoration(hintText: 'Place your comment here',),onSaved: (String value) {},
+            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+
+      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
+          Expanded(child:  TextFormField(
+            decoration: const InputDecoration(hintText: 'e.g. Goose',),onSaved: (String value) {},
+            validator: (String value) {return value.contains('@') ? 'Do not use the @ char.' : null;},)),],),),
+
+
+
+      Expanded(child:  Center(child: RepaintBoundary(key: globalKey,
+            child: QrImage(data: _newid, size: 0.2 * bodyHeight,
+              onError: (ex) {print("[QR] ERROR - $ex");setState((){
+              _inputErrorText = "Error! Maybe your input value is too long?";});},),),),),
+
+      Padding(padding: const EdgeInsets.all(33.0),
+          child:  FlatButton(
+          child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
+          onPressed: () {
+          setState((){
+          _dataString = _textController.text;
+          _inputErrorText = null;  });  },),),
         ],
-      ),
-    );
-  }
+    ),
+  );      }
+
 }
