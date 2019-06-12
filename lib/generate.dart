@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 var uuid = new Uuid();
 
@@ -21,11 +22,13 @@ class GenerateScreenState extends State<GenerateScreen> {
   GlobalKey globalKey = new GlobalKey();
   String _dataString = "Hello from this QR";
   String _inputErrorText;
-  final _thicknessController = TextEditingController();
-  final _layersController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _authorController = TextEditingController();
+  final _thicknessController = TextEditingController() ;
+  final _layersController = TextEditingController() ;
+  final _descriptionController = TextEditingController() ;
+  final _authorController = TextEditingController() ;
   // controllers -> capture TextFormField input
+
+
   @override
   var _newid = uuid.v1();
   var now = new DateTime.now();
@@ -59,37 +62,43 @@ _contentWidget() {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  Text("$_newid " ,style: TextStyle(fontSize: 16)),),],),),
 
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
 
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField( controller: _thicknessController,
             decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),)),],),),
 
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _layersController,
             decoration: const InputDecoration(hintText: 'e.g. 35',),)),],),),
 
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _descriptionController,
             decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
 
-      Container(padding: const EdgeInsets.all(20),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _authorController,
             decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
 
       Expanded(child:  Center(child: RepaintBoundary(key: globalKey,
-            child: QrImage(data: _newid, size: 0.3 * bodyHeight,
+            child: QrImage(data: _newid, size: 0.2 * bodyHeight,
               onError: (ex) {print("[QR] ERROR - $ex");setState((){
               _inputErrorText = "Error! Maybe your input value is too long?";});},),),),),
 
       Padding(padding: const EdgeInsets.all(33.0),
           child:  FlatButton(
           child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
-          onPressed:null, ),),
+          onPressed: () async{
+            var url = 'http://webek3.fuw.edu.pl/zps2g14/post_probe_info.py';
+            var response = await http.post(url, body: {'author': _authorController.text ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
+            print('Response status: ${response.statusCode}');
+            print('Response body: ${response.body}');
+
+          }, ),),
         ],
     ),
   );      }
