@@ -9,6 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:testwidgets1_0/home_screen.dart';
+
 
 var uuid = new Uuid();
 
@@ -35,9 +37,7 @@ class GenerateScreenState extends State<GenerateScreen> {
   // each time we click 'CREATE NEW QR CODE' we are creating new unique time-based ID
   // which is printed later on and is also base of our QR code
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.share),onPressed: _captureAndSharePng,)],),
+    return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),),
       body: _contentWidget(),
 
     );}
@@ -54,42 +54,42 @@ class GenerateScreenState extends State<GenerateScreen> {
       await file.writeAsBytes(pngBytes);
 
       final channel = const MethodChannel('channel:me.alfian.share/share');
-      channel.invokeMethod('shareFile', 'image.png');
-} catch(e) {print(e.toString());}}
-_contentWidget() {
+      channel.invokeMethod('shareFile', 'image.png');  }
+  catch(e) {print(e.toString());}}
+  _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return  Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  Text("$_newid " ,style: TextStyle(fontSize: 16)),),],),),
 
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
 
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField( controller: _thicknessController,
             decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),)),],),),
 
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _layersController,
             decoration: const InputDecoration(hintText: 'e.g. 35',),)),],),),
 
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _descriptionController,
             decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
 
-      Container(padding: const EdgeInsets.all(18),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
+      Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  TextFormField(controller: _authorController,
             decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
 
-      Expanded(child:  Center(child: RepaintBoundary(key: globalKey,
-            child: QrImage(data: _newid, size: 0.2 * bodyHeight,
-              onError: (ex) {print("[QR] ERROR - $ex");setState((){
-              _inputErrorText = "Error! Maybe your input value is too long?";});},),),),),
+      Center(child:RepaintBoundary(key: globalKey,child:
+          QrImage(data: _newid, size: 0.2 * bodyHeight,onError: (ex) {print("[QR] ERROR - $ex");setState((){
+            _inputErrorText = "Error! Maybe your input value is too long?";});},),),),
+      Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),),
 
-      Padding(padding: const EdgeInsets.all(33.0),
+      Padding(padding: const EdgeInsets.all(16.0),
           child:  FlatButton(
           child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
           onPressed: () async{
@@ -97,10 +97,33 @@ _contentWidget() {
             var response = await http.post(url, body: {'author': _authorController.text ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
             print('Response status: ${response.statusCode}');
             print('Response body: ${response.body}');
+            if (response.statusCode == 200) {
+              showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);
+            } else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}
+          }, ),),    ],),);      }
 
-          }, ),),
-        ],
-    ),
-  );      }
+    Widget _popupscreen1(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Data upload Complete!'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Before shutting this screen remember to print your QR code:'),
+          Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),), ],),
+      actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, '/'); },
+          child: const Text('Return to Home Page'),),],);    }
+          
+    Widget _popupscreen2(BuildContext context) {
+    return new AlertDialog(
+        title: const Text('Data upload rejected. Please try again'),
+        content: new Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Error: '),
+          Text('Could not upload data'),],),
+        actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
+          child: const Text('Got it'),),],);    }
 
 }
