@@ -111,9 +111,9 @@ class GenerateScreenState extends State<GenerateScreen> {
         children: <Widget>[
           Text('Before shutting this screen remember to print your QR code:'),
           Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),), ],),
-      actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, '/'); },
+      actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, '/home'); },
           child: const Text('Return to Home Page'),),],);    }
-          
+
     Widget _popupscreen2(BuildContext context) {
     return new AlertDialog(
         title: const Text('Data upload rejected. Please try again'),
@@ -121,7 +121,7 @@ class GenerateScreenState extends State<GenerateScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Error: '),
+          Text('Error'),
           Text('Could not upload data'),],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
           child: const Text('Got it'),),],);    }

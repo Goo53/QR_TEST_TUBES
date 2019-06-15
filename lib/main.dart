@@ -4,6 +4,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:testwidgets1_0/theme_switcher_widgets.dart';
 import 'package:testwidgets1_0/scan.dart';
 import 'package:testwidgets1_0/generate.dart';
+import 'package:testwidgets1_0/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
               ),
           themedWidgetBuilder: (context, theme) {
             return MaterialApp(
-              title: 'Flutter Demo',
+              title: 'QR test-tubes managment',
               theme: theme,
-              home: HomeScreen(title: 'QR Test Tubes Managment'),
+              home: LogIn(),
               initialRoute: '/',
               routes: {
                 '/home': (BuildContext context) => HomeScreen(),
-                //'/signup': (BuildContext context) => SignUpPage(),
+                '/log_in': (BuildContext context) => LogIn(),
                 '/scan': (BuildContext context) => ScanScreen(),
                 '/generate': (BuildContext context) => GenerateScreen(),
                       },
