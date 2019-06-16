@@ -16,14 +16,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Navigator.of(context).push(
     MaterialPageRoute<void>( builder: (BuildContext context) { return
   Scaffold(appBar: AppBar(title: Text('Settings'),),
-  body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-    Container(padding: const EdgeInsets.all(32), child: RaisedButton(onPressed: showChooser,
+    body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+    Container(padding: const EdgeInsets.all(32),
+          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: showChooser,
           child: Text('Theme',style: TextStyle(fontSize: 20) ),),),
-    Container(padding: const EdgeInsets.all(32), child: RaisedButton(onPressed: null,
+    Container(padding: const EdgeInsets.all(32),
+          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: null,
           child: Text('Log out',style: TextStyle(fontSize: 20) ),),),
-    Container(padding: const EdgeInsets.all(32), child: RaisedButton(onPressed: null,
+    Container(padding: const EdgeInsets.all(32),
+          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: null,
           child: Text('Whatever',style: TextStyle(fontSize: 20) ),),),
-    Container(padding: const EdgeInsets.all(32), child: RaisedButton(onPressed: null,
+    Container(padding: const EdgeInsets.all(32),
+          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)), onPressed: null,
           child: Text('Whatever',style: TextStyle(fontSize: 20) ),),),  ],),),);},),);  }
 
   void showChooser() {showDialog<void>(context: context,builder: (context) {
@@ -34,17 +38,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(appBar: AppBar(title: Text(widget.title),
+  return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),
         actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],),
     body: Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-      Container(padding: const EdgeInsets.all(32), child: RaisedButton(
-        onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => ScanScreen()),);},
+      Container(padding: const EdgeInsets.all(32),
+        child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
+          onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => ScanScreen()),);},
           child: Text('QR CODE SCANNER',style: TextStyle(fontSize: 20) ),),),
-      Container(padding: const EdgeInsets.all(32), child: RaisedButton(
-        onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => GenerateScreen()),);},
+      Container(padding: const EdgeInsets.all(32),
+        child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
+          onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => GenerateScreen()),);},
           child: Text('CREATE NEW QR CODE',style: TextStyle(fontSize: 20) ),),),
-      Container(padding: const EdgeInsets.all(32), child: RaisedButton(
-        onPressed: null,child: Text('SEARCH',style: TextStyle(fontSize: 20) ),),),
-                            ],),),);}}
+      Container(padding: const EdgeInsets.all(32),
+        child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
+          onPressed: null,child: Text('SEARCH',style: TextStyle(fontSize: 20) ),),),      ],),),);} }

@@ -5,6 +5,7 @@ import 'package:testwidgets1_0/theme_switcher_widgets.dart';
 import 'package:testwidgets1_0/scan.dart';
 import 'package:testwidgets1_0/generate.dart';
 import 'package:testwidgets1_0/login.dart';
+import 'package:testwidgets1_0/new_user.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
               routes: {
                 '/home': (BuildContext context) => HomeScreen(),
                 '/log_in': (BuildContext context) => LogIn(),
+                '/new_user': (BuildContext context) => NewUser(),
                 '/scan': (BuildContext context) => ScanScreen(),
                 '/generate': (BuildContext context) => GenerateScreen(),
                       },
