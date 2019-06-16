@@ -58,9 +58,8 @@ class GenerateScreenState extends State<GenerateScreen> {
   catch(e) {print(e.toString());}}
   _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
-  return  Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  return  Center(child: ListView(shrinkWrap: true,
+      padding: const EdgeInsets.all(20.0),
       children: <Widget>[
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
           Expanded(child:  Text("$_newid " ,style: TextStyle(fontSize: 16)),),],),),
