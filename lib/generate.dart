@@ -29,8 +29,9 @@ class GenerateScreenState extends State<GenerateScreen> {
   final _descriptionController = TextEditingController() ;
   final _authorController = TextEditingController() ;
   // controllers -> capture TextFormField input
-
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _autoValidate = true;
+  // validation
   @override
   var _newid = uuid.v1();
   var now = new DateTime.now();
@@ -56,9 +57,10 @@ class GenerateScreenState extends State<GenerateScreen> {
       final channel = const MethodChannel('channel:me.alfian.share/share');
       channel.invokeMethod('shareFile', 'image.png');  }
   catch(e) {print(e.toString());}}
+
   _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
-  return  Center(child: ListView(shrinkWrap: true,
+  return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
@@ -68,19 +70,21 @@ class GenerateScreenState extends State<GenerateScreen> {
           Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
 
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
-          Expanded(child:  TextFormField( controller: _thicknessController,
+          Expanded(child:  TextFormField( controller: _thicknessController, validator: validateThickness,
+            keyboardType: TextInputType.number, inputFormatters: [BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))],
             decoration: const InputDecoration(hintText: 'e.g. 2.3 [nm]',),)),],),),
 
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 16) ),
-          Expanded(child:  TextFormField(controller: _layersController,
+          Expanded(child:  TextFormField(controller: _layersController, validator: validateLayers,
+            keyboardType: TextInputType.number, inputFormatters: [BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))],
             decoration: const InputDecoration(hintText: 'e.g. 35',),)),],),),
 
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
-          Expanded(child:  TextFormField(controller: _descriptionController,
+          Expanded(child:  TextFormField(controller: _descriptionController, validator: validateDescription,
             decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
 
       Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
-          Expanded(child:  TextFormField(controller: _authorController,
+          Expanded(child:  TextFormField(controller: _authorController, validator: validateAuthor,
             decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
 
       Center(child:RepaintBoundary(key: globalKey,child:
@@ -91,7 +95,7 @@ class GenerateScreenState extends State<GenerateScreen> {
       Padding(padding: const EdgeInsets.all(16.0),
           child:  FlatButton(
           child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
-          onPressed: () async{
+          onPressed: () async{ if(_formKey.currentState.validate()) {
             var url = 'http://webek3.fuw.edu.pl/zps2g14/post_probe_info.py';
             var response = await http.post(url, body: {'author': _authorController.text ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
             print('Response status: ${response.statusCode}');
@@ -99,30 +103,52 @@ class GenerateScreenState extends State<GenerateScreen> {
             if (response.statusCode == 200) {
               showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);
             } else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}
-          }, ),),    ],),);      }
+          } else{showDialog(context: context,builder: (BuildContext context) => _popupscreen3(context),);}
+        }, ),),    ],),),);      }
 
     Widget _popupscreen1(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Data upload Complete!'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return new AlertDialog( title: Center(child:Text('Data upload Complete!'),),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Before shutting this screen remember to print your QR code:'),
+          Center(child:Text('Before shutting this screen remember to print your QR code:'),),
           Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),), ],),
       actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, '/home'); },
           child: const Text('Return to Home Page'),),],);    }
 
     Widget _popupscreen2(BuildContext context) {
-    return new AlertDialog(
-        title: const Text('Data upload rejected. Please try again'),
-        content: new Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return new AlertDialog(title: Center(child:Text('Data upload rejected. Please try again'),),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Error'),
-          Text('Could not upload data'),],),
+          Center(child:Text('Error'),),
+          Center(child:Text('Could not upload data'),),],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
           child: const Text('Got it'),),],);    }
+
+    Widget _popupscreen3(BuildContext context) {
+    return new AlertDialog( title: Center(child:Text('Error'),),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Center(child:Text('Data incorrect. Check it again'),),
+          Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
+        actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
+          child: const Text('Got it'),),],);    }
+
+
+    String validateThickness(String value) {
+        if (value.length < 1)  {return 'Cannot be empty';}
+        else  {return null;  }}
+    String validateLayers(String value) {
+        if (value.length < 1)  {return 'Digits only';}
+        else  {return null;  }}
+    String validateDescription(String value) {
+        if (value.length < 1)  {return 'Enter description';}
+        else  {return null;  }}
+    String validateAuthor(String value) {
+        if (value.length < 1)  {return 'Enter your name';}
+        else  {return null;  }}
+
 
 }

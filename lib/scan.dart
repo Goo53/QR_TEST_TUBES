@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ScanScreen extends StatefulWidget {@override  _ScanState createState() => new _ScanState(); }
-class _ScanState extends State<ScanScreen> {  String barcode = "";
-
-@override initState() {super.initState();  }
-@override
+class _ScanState extends State<ScanScreen> {
+  String barcode = "";
+  @override initState() {super.initState();  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
     appBar: new AppBar(
