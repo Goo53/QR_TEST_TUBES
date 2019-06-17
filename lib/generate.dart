@@ -108,6 +108,8 @@ class GenerateScreenState extends State<GenerateScreen> {
 
     Widget _popupscreen1(BuildContext context) {
     return new AlertDialog( title: Center(child:Text('Data upload Complete!'),),
+      titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -118,21 +120,19 @@ class GenerateScreenState extends State<GenerateScreen> {
 
     Widget _popupscreen2(BuildContext context) {
     return new AlertDialog(title: Center(child:Text('Data upload rejected. Please try again'),),
+        titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(child:Text('Error'),),
-          Center(child:Text('Could not upload data'),),],),
+        content: Center(child:Text('Could not upload data'),),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
           child: const Text('Got it'),),],);    }
 
     Widget _popupscreen3(BuildContext context) {
     return new AlertDialog( title: Center(child:Text('Error'),),
+        titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(child:Text('Data incorrect. Check it again'),),
-          Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
+        content: Center(child:Text('Data incorrect. Check it again'),),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
           child: const Text('Got it'),),],);    }
 
