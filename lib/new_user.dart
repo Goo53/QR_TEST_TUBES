@@ -12,7 +12,8 @@ class _NewUserState extends State<NewUser> {
   final _newpassword1 = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
-
+  bool passwordVisible = false;
+  bool passwordVisible1 = false;
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
 
   _contentWidget() {
@@ -24,13 +25,17 @@ class _NewUserState extends State<NewUser> {
       decoration: InputDecoration(hintText: 'Email', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),   ),),),
   Container(padding: const EdgeInsets.all(12),
-      child:TextFormField(controller: _newpassword, validator: validatePassword,
+      child:TextFormField(controller: _newpassword, validator: validatePassword, obscureText: passwordVisible,
       decoration: InputDecoration(hintText: 'Password', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),  ),),),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      suffixIcon: IconButton(icon: Icon(passwordVisible ? Icons.visibility : Icons.visibility_off,),
+        onPressed: () { setState(() {passwordVisible = !passwordVisible; }); },),  ),),),
   Container(padding: const EdgeInsets.all(12),
-      child:TextFormField(controller: _newpassword1, validator: validatePassword1,
+      child:TextFormField(controller: _newpassword1, validator: validatePassword1,obscureText: passwordVisible1,
       decoration: InputDecoration(hintText: 'Repeat password', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),  ),),),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      suffixIcon: IconButton(icon: Icon(passwordVisible1 ? Icons.visibility : Icons.visibility_off,),
+        onPressed: () { setState(() {passwordVisible1 = !passwordVisible1; }); },),  ),),),
 
   Padding(padding: const EdgeInsets.all(16.0),
       child:  FlatButton(child:  Text("Submit", style: TextStyle(fontSize: 24)),

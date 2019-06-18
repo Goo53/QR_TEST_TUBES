@@ -13,6 +13,8 @@ class _LogInState extends State<LogIn> {
   final _password = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
+  bool passwordVisible = false;
+  //@override void initState() {_passwordVisible = false;  super.initState();}
 
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
   _contentWidget() {
@@ -23,9 +25,11 @@ class _LogInState extends State<LogIn> {
       decoration: InputDecoration(hintText: 'Email', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),   ),),),
   Container(padding: const EdgeInsets.all(12),
-      child:TextFormField(controller: _password, validator: validatePassword,
+      child:TextFormField(controller: _password, validator: validatePassword, obscureText: passwordVisible,
       decoration: InputDecoration(hintText: 'Password', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),  ),),),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      suffixIcon: IconButton(icon: Icon(passwordVisible ? Icons.visibility : Icons.visibility_off,),
+        onPressed: () { setState(() {passwordVisible = !passwordVisible; }); },),  ),),),
 
   Padding(padding: const EdgeInsets.all(16.0),child:  FlatButton(child:  Text("Log In", style: TextStyle(fontSize: 24)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
