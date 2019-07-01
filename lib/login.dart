@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:testwidgets1_0/home_screen.dart';
 import 'package:testwidgets1_0/new_user.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'dart:convert';
 
 class LogIn extends StatefulWidget {static String tag = 'login-page';@override _LogInState createState() => new _LogInState();}
 
@@ -13,7 +13,7 @@ class _LogInState extends State<LogIn> {
   final _password = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
-  bool passwordVisible = false;
+  bool passwordVisible = true;
   //@override void initState() {_passwordVisible = false;  super.initState();}
 
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
@@ -37,7 +37,10 @@ class _LogInState extends State<LogIn> {
           var url = 'http://webek3.fuw.edu.pl/zps2g14/login_user.py';
           var response = await http.post(url, body: {'login': _email.text ,'password': _password.text , });
           print('Response status: ${response.statusCode}'); print('Response body: ${response.body}');
-          if (response.statusCode == 200) { Navigator.pushNamed(context, '/home');}
+          if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
+            bool success = responseJSON['success'];
+            if ( success == true) {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);}
+            else{showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }
           else {showDialog(context: context,builder: (BuildContext context) => _popupscreen(context),);}  }} ),),
 
   Padding(padding: const EdgeInsets.all(16.0),
@@ -49,7 +52,14 @@ class _LogInState extends State<LogIn> {
   Widget _popupscreen(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[ Center(child:Text('Either data was incorrect or your internet connection failed. Try again or contact administrator.'),),
+        children: <Widget>[ Center(child:Text('Could not reach database!'),),
+        Center(child:Text('Check your internet connection, try again and if that fail contact administrator.'),),
+        Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
+        actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
+  Widget _popupscreen1(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[ Center(child:Text('Data incorrect!'),),
         Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
 

@@ -2,24 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:testwidgets1_0/login.dart';
+import 'dart:convert';
 
 class NewUser extends StatefulWidget {static String tag = 'new-user';@override _NewUserState createState() => new _NewUserState();}
 
 class _NewUserState extends State<NewUser> {
   @override
+  final _first_name = TextEditingController() ;
+  final _last_name = TextEditingController() ;
   final _newemail = TextEditingController() ;
   final _newpassword = TextEditingController() ;
   final _newpassword1 = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
-  bool passwordVisible = false;
-  bool passwordVisible1 = false;
+  bool passwordVisible = true;
+  bool passwordVisible1 = true;
+  
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
 
   _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate,  child:Column(mainAxisAlignment: MainAxisAlignment.center,
   children: <Widget>[
+  Container(padding: const EdgeInsets.all(12),
+      child:TextFormField(controller: _first_name, validator: validateFirstName,
+      decoration: InputDecoration(hintText: 'First name', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),   ),),),
+  Container(padding: const EdgeInsets.all(12),
+      child:TextFormField(controller: _last_name, validator: validateLastName,
+      decoration: InputDecoration(hintText: 'Last name', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),   ),),),
+
+
   Container(padding: const EdgeInsets.all(12),
       child:TextFormField(controller: _newemail, validator: validateEmail,
       decoration: InputDecoration(hintText: 'Email', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -43,12 +57,16 @@ class _NewUserState extends State<NewUser> {
       onPressed: () async{
           if ( _formKey.currentState.validate()) {
           var url = 'http://webek3.fuw.edu.pl/zps2g14/add_new_user.py';
-          var response = await http.post(url, body: {'email': _newemail.text ,'password': _newpassword.text , });
+          var response = await http.post(url, body: {'first_name': _first_name.text, 'last_name': _last_name.text, 'login': _newemail.text ,'password': _newpassword.text , });
           print('Response status: ${response.statusCode}'); print('Response body: ${response.body}');
-          if (response.statusCode == 200) {Navigator.pushNamed(context, '/log_in'); }
+          if (response.statusCode == 200) {
+            String responseBody = response.body;
+            var responseJSON = json.decode(responseBody);
+            bool success = responseJSON['success'];
+            if ( success == true) {Navigator.pushNamed(context, '/log_in'); }
+            else{showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }
           else {showDialog(context: context,builder: (BuildContext context) => _popupscreen(context),);}  }
-          else{showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }  ),),
-
+            }  ),),
 
     ],),);     }
 
@@ -65,6 +83,12 @@ class _NewUserState extends State<NewUser> {
         Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
 
+  String validateFirstName(String value) {
+      if (value.length < 1)  {return 'This cannot be empty!';}
+      else  {return null;  }}
+  String validateLastName(String value) {
+      if (value.length < 1)  {return 'This cannot be empty!';}
+      else  {return null;  }}
   String validateEmail(String value) {
       Pattern pattern =r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
       RegExp regex = new RegExp(pattern); if (!regex.hasMatch(value)) {return 'Enter Valid Email';}
