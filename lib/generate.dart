@@ -7,14 +7,9 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:testwidgets1_0/home_screen.dart';
 import 'dart:convert';
-
-
-
-var uuid = new Uuid();
 
 class GenerateScreen extends StatefulWidget {@override State<StatefulWidget> createState() => GenerateScreenState();}
 
@@ -24,49 +19,37 @@ class GenerateScreenState extends State<GenerateScreen> {
   static const double _topSectionHeight = 50.0;
 
   GlobalKey globalKey = new GlobalKey();
-  String _dataString = "Hello from this QR";
+  int _newid;
   String _inputErrorText;
   final _thicknessController = TextEditingController() ;
   final _layersController = TextEditingController() ;
   final _descriptionController = TextEditingController() ;
   final _authorController = TextEditingController() ;
-  // controllers -> capture TextFormField input
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
-  // validation
+  var visibility = false;
+
+
   @override
-  var _newid = uuid.v1();
   var now = new DateTime.now();
-  // each time we click 'CREATE NEW QR CODE' we are creating new unique time-based ID
-  // which is printed later on and is also base of our QR code
+
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),),
-      body: _contentWidget(),
-
-    );}
+      body: _contentWidget(),  );}
 
   Future<void> _captureAndSharePng() async {
-    try {
-      RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List();
-
-      final tempDir = await getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/image.png').create();
-      await file.writeAsBytes(pngBytes);
-
-      final channel = const MethodChannel('channel:me.alfian.share/share');
-      channel.invokeMethod('shareFile', 'image.png');  }
-  catch(e) {print(e.toString());}}
+    try { RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+    var image = await boundary.toImage(); ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = byteData.buffer.asUint8List(); final tempDir = await getTemporaryDirectory();
+    final file = await new File('${tempDir.path}/image.png').create();  await file.writeAsBytes(pngBytes);
+    final channel = const MethodChannel('channel:me.alfian.share/share'); channel.invokeMethod('shareFile', 'image.png');  }
+    catch(e) {print(e.toString());}}
 
   _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('ID: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  Text("$_newid " ,style: TextStyle(fontSize: 16)),),],),),
 
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
         Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
@@ -89,13 +72,6 @@ class GenerateScreenState extends State<GenerateScreen> {
         Expanded(child:  TextFormField(controller: _authorController, validator: validateAuthor,
             decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
 
-    Center(child:RepaintBoundary(key: globalKey, child: Container(
-        decoration: BoxDecoration(color: Colors.white,borderRadius:  BorderRadius.all( Radius.circular(32.0)), ),
-        child:QrImage(data: _newid, size: 0.1 * bodyHeight, onError: (ex) {print("[QR] ERROR - $ex");setState((){
-            _inputErrorText = "Error! Maybe your input value is too long?";});},),),),),
-
-    Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),),
-
     Padding(padding: const EdgeInsets.all(16.0),
         child:  FlatButton(
         child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
@@ -105,22 +81,35 @@ class GenerateScreenState extends State<GenerateScreen> {
             print('Response status: ${response.statusCode}');
             print('Response body: ${response.body}');
             if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
-              bool success = responseJSON['success'];
-              if ( success == true) {showDialog( barrierDismissible: false, context: context,builder: (BuildContext context) => _popupscreen1(context),); }
+              bool success = responseJSON['success']; int _newid = responseJSON['id'];
+              if ( success == true) { showDialog( barrierDismissible: false, context: context,builder: (BuildContext context) => _popupscreen1(context),); }
               else{showDialog(context: context,builder: (BuildContext context) => _popupscreen3(context),);}  }
             else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}  }; }, ),),    ],),),);      }
 
     Widget _popupscreen1(BuildContext context,) {
-    return new AlertDialog( title: Center(child:Text('Data upload Complete!'),),
-      titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
+    return new WillPopScope(
+    onWillPop: () async => false,
+    child: new AlertDialog( title: Center(child:Text('Data upload Complete!'),),
+      titleTextStyle: TextStyle(fontSize: 24, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      contentTextStyle: TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
+      content: new Container(width: 290.0, height: 260.0, decoration: new BoxDecoration(
+      shape: BoxShape.rectangle,
+      color: const Color(0xFFFFFF),
+      borderRadius: new BorderRadius.all(new Radius.circular(32.0)),  ),
+    child: new Padding( padding: const EdgeInsets.all(18.0), child:Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Center(child:Text('Before shutting this screen remember to print your QR code:'),),
-          Center(child:IconButton(icon: Icon(Icons.print),onPressed: _captureAndSharePng,),), ],),
-      actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);},
-          child: const Text('Return to Home Page'),),],);    }
+          Center(child:Text('Before closing this window, remember to print your QR code:'),),
+          Center(child:RepaintBoundary(key: globalKey, child: Container(
+          padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(color: Colors.white,borderRadius:  BorderRadius.all( Radius.circular(32.0)), ),
+            child:QrImage(data: _newid.toString(), size: 100 ,),),),), ],),),),
+    actions: <Widget>[ StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+      IconButton(icon: Icon(Icons.print),onPressed: () { _captureAndSharePng(); setState(() {visibility = true;});},),
+      Visibility(visible: visibility, child:FlatButton(onPressed: () {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);},
+        child: const Text('Return to Home Page'),),), ],); }),],   ), );    }
 
     Widget _popupscreen2(BuildContext context) {
     return new AlertDialog(title: Center(child:Text('Data upload rejected. Please try again'),),
