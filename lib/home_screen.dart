@@ -3,7 +3,10 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:testwidgets1_0/theme_switcher_widgets.dart';
 import 'package:testwidgets1_0/scan.dart';
 import 'package:testwidgets1_0/generate.dart';
+import 'package:testwidgets1_0/login.dart';
 import 'package:flutter/rendering.dart';
+
+class ScreenArguments1{final String login1; ScreenArguments1(this.login1,);}
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -26,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text('Log out',style: TextStyle(fontSize: 20) ),),),
     Container(padding: const EdgeInsets.all(32),
           child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: null,
-          child: Text('Whatever',style: TextStyle(fontSize: 20) ),),),
+          child: Text('login2',style: TextStyle(fontSize: 20) ),),),
     Container(padding: const EdgeInsets.all(32),
           child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)), onPressed: null,
           child: Text('Whatever',style: TextStyle(fontSize: 20) ),),),  ],),),);},),);  }
@@ -39,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+  final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+  final String login2 = args.login1;
   return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),
         actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],),
     body: Center(
@@ -46,12 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => ScanScreen()),);},
+          onPressed: () {Navigator.of(context).pushNamed('/scan',arguments:ScreenArguments1(login2),);},
           child: Text('QR CODE SCANNER',style: TextStyle(fontSize: 20) ),),),
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context) => GenerateScreen()),);},
+          onPressed: () {Navigator.of(context).pushNamed('/generate',arguments:ScreenArguments1(login2),);},
           child: Text('CREATE NEW QR CODE',style: TextStyle(fontSize: 20) ),),),
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: null,child: Text('SEARCH',style: TextStyle(fontSize: 20) ),),),      ],),),);} }
+          onPressed: null,child: Text(login2,style: TextStyle(fontSize: 20) ),),),      ],),),);} }

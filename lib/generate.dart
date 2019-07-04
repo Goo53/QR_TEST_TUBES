@@ -24,7 +24,6 @@ class GenerateScreenState extends State<GenerateScreen> {
   final _thicknessController = TextEditingController() ;
   final _layersController = TextEditingController() ;
   final _descriptionController = TextEditingController() ;
-  final _authorController = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = true;
   var visibility = false;
@@ -46,13 +45,18 @@ class GenerateScreenState extends State<GenerateScreen> {
     catch(e) {print(e.toString());}}
 
   _contentWidget() {
+  final ScreenArguments1 args = ModalRoute.of(context).settings.arguments;
+  final String author = args.login1;
+
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
+        Expanded(child:  Text(author ,style: TextStyle(fontSize: 16)),),],),),
 
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  Text("$now" ,style: TextStyle(fontSize: 16)),),],),),
+        Expanded(child:  Text('$now' ,style: TextStyle(fontSize: 16)),),],),),
 
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
         Expanded(child:  TextFormField( controller: _thicknessController, validator: validateThickness,
@@ -68,16 +72,12 @@ class GenerateScreenState extends State<GenerateScreen> {
         Expanded(child:  TextFormField(controller: _descriptionController, validator: validateDescription,
             decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
 
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  TextFormField(controller: _authorController, validator: validateAuthor,
-            decoration: const InputDecoration(hintText: 'e.g. Goose',),)),],),),
-
     Padding(padding: const EdgeInsets.all(16.0),
         child:  FlatButton(
         child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
           onPressed: () async{ if(_formKey.currentState.validate()) {
             var url = 'http://webek3.fuw.edu.pl/zps2g14/post_probe_info.py';
-            var response = await http.post(url, body: {'author': _authorController.text ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
+            var response = await http.post(url, body: {'author': author ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
             print('Response status: ${response.statusCode}');
             print('Response body: ${response.body}');
             if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
@@ -137,9 +137,6 @@ class GenerateScreenState extends State<GenerateScreen> {
         else  {return null;  }}
     String validateDescription(String value) {
         if (value.length < 1)  {return 'Enter description';}
-        else  {return null;  }}
-    String validateAuthor(String value) {
-        if (value.length < 1)  {return 'Enter your name';}
         else  {return null;  }}
 
 }

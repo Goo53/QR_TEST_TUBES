@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:testwidgets1_0/home_screen.dart';
+
 
 class ScanScreen extends StatefulWidget {@override  _ScanState createState() => new _ScanState(); }
 class _ScanState extends State<ScanScreen> {
@@ -11,6 +13,9 @@ class _ScanState extends State<ScanScreen> {
   @override initState() {super.initState();  }
   @override
   Widget build(BuildContext context) {
+    final ScreenArguments1 args = ModalRoute.of(context).settings.arguments;
+    final String author = args.login1;
+
     return Scaffold(
     appBar: new AppBar(
     title: new Text('QR Code Scanner'),),

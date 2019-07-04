@@ -5,6 +5,8 @@ import 'package:testwidgets1_0/new_user.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 
+class ScreenArguments{final String login1; ScreenArguments(this.login1,);}
+
 class LogIn extends StatefulWidget {static String tag = 'login-page';@override _LogInState createState() => new _LogInState();}
 
 class _LogInState extends State<LogIn> {
@@ -39,7 +41,7 @@ class _LogInState extends State<LogIn> {
           print('Response status: ${response.statusCode}'); print('Response body: ${response.body}');
           if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
             bool success = responseJSON['success'];
-            if ( success == true) {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);}
+            if ( success == true) {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false, arguments:ScreenArguments(_email.text),);}
             else{showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }
           else {showDialog(context: context,builder: (BuildContext context) => _popupscreen(context),);}  }} ),),
 
