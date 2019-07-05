@@ -17,7 +17,7 @@ class _NewUserState extends State<NewUser> {
   bool _autoValidate = true;
   bool passwordVisible = true;
   bool passwordVisible1 = true;
-  
+
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
 
   _contentWidget() {
@@ -70,13 +70,15 @@ class _NewUserState extends State<NewUser> {
 
     ],),);     }
 
-  Widget _popupscreen(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
+  Widget _popupscreen(BuildContext context) {return new AlertDialog( backgroundColor: Colors.grey[600],
+      title: Center(child:Text('Error'),),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[ Center(child:Text('Could not reach database. Check your connection and try again'),),
         Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
-  Widget _popupscreen1(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
+  Widget _popupscreen1(BuildContext context) {return new AlertDialog( backgroundColor: Colors.grey[600],
+      title: Center(child:Text('Error'),),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[ Center(child:Text('Data incorrect!'),),

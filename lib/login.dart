@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:testwidgets1_0/appdata.dart';
 import 'package:http/http.dart' as http;
 import 'package:testwidgets1_0/home_screen.dart';
 import 'package:testwidgets1_0/new_user.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
-
-class ScreenArguments{final String login1; ScreenArguments(this.login1,);}
 
 class LogIn extends StatefulWidget {static String tag = 'login-page';@override _LogInState createState() => new _LogInState();}
 
@@ -41,7 +40,7 @@ class _LogInState extends State<LogIn> {
           print('Response status: ${response.statusCode}'); print('Response body: ${response.body}');
           if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
             bool success = responseJSON['success'];
-            if ( success == true) {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false, arguments:ScreenArguments(_email.text),);}
+            if ( success == true) { appData.text = _email.text ; Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false,);}
             else{showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }
           else {showDialog(context: context,builder: (BuildContext context) => _popupscreen(context),);}  }} ),),
 
@@ -51,14 +50,16 @@ class _LogInState extends State<LogIn> {
       onPressed:() {Navigator.pushNamed(context, '/new_user');} ),),
     ],),);     }
 
-  Widget _popupscreen(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
+  Widget _popupscreen(BuildContext context) {return new AlertDialog( backgroundColor: Colors.grey[600],
+      title: Center(child:Text('Error'),),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[ Center(child:Text('Could not reach database!'),),
         Center(child:Text('Check your internet connection, try again and if that fail contact administrator.'),),
         Center(child:IconButton(icon: Icon(Icons.error),onPressed: null,),), ],),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
-  Widget _popupscreen1(BuildContext context) {return new AlertDialog(title: Center(child:Text('Error'),),
+  Widget _popupscreen1(BuildContext context) {return new AlertDialog( backgroundColor: Colors.grey[600],
+      title: Center(child:Text('Error'),),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[ Center(child:Text('Data incorrect!'),),

@@ -5,8 +5,7 @@ import 'package:testwidgets1_0/scan.dart';
 import 'package:testwidgets1_0/generate.dart';
 import 'package:testwidgets1_0/login.dart';
 import 'package:flutter/rendering.dart';
-
-class ScreenArguments1{final String login1; ScreenArguments1(this.login1,);}
+import 'package:testwidgets1_0/appdata.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -41,9 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ? Brightness.light : Brightness.dark);}
 
   @override
+
   Widget build(BuildContext context) {
-  final ScreenArguments args = ModalRoute.of(context).settings.arguments;
-  final String login2 = args.login1;
   return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),
         actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],),
     body: Center(
@@ -51,12 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: () {Navigator.of(context).pushNamed('/scan',arguments:ScreenArguments1(login2),);},
+          onPressed: () {Navigator.of(context).pushNamed('/scan',);},
           child: Text('QR CODE SCANNER',style: TextStyle(fontSize: 20) ),),),
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: () {Navigator.of(context).pushNamed('/generate',arguments:ScreenArguments1(login2),);},
+          onPressed: () {Navigator.of(context).pushNamed('/generate',);},
           child: Text('CREATE NEW QR CODE',style: TextStyle(fontSize: 20) ),),),
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: null,child: Text(login2,style: TextStyle(fontSize: 20) ),),),      ],),),);} }
+          onPressed: null,child: Text('login2',style: TextStyle(fontSize: 20) ),),),      ],),),);} }

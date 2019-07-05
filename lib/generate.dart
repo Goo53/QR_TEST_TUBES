@@ -9,7 +9,16 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:testwidgets1_0/home_screen.dart';
+import 'package:testwidgets1_0/appdata.dart';
 import 'dart:convert';
+
+class ProbeId {
+  static final ProbeId _probeId = new ProbeId._internal();
+  String text;
+  factory ProbeId(){return _probeId;}
+  ProbeId._internal();
+}
+final probeId = ProbeId();
 
 class GenerateScreen extends StatefulWidget {@override State<StatefulWidget> createState() => GenerateScreenState();}
 
@@ -45,15 +54,13 @@ class GenerateScreenState extends State<GenerateScreen> {
     catch(e) {print(e.toString());}}
 
   _contentWidget() {
-  final ScreenArguments1 args = ModalRoute.of(context).settings.arguments;
-  final String author = args.login1;
 
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  Text(author ,style: TextStyle(fontSize: 16)),),],),),
+        Expanded(child:  Text(appData.text ,style: TextStyle(fontSize: 16)),),],),),
 
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
         Expanded(child:  Text('$now' ,style: TextStyle(fontSize: 16)),),],),),
@@ -77,11 +84,11 @@ class GenerateScreenState extends State<GenerateScreen> {
         child:  Text("SUBMIT", style: TextStyle(fontSize: 24)),
           onPressed: () async{ if(_formKey.currentState.validate()) {
             var url = 'http://webek3.fuw.edu.pl/zps2g14/post_probe_info.py';
-            var response = await http.post(url, body: {'author': author ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
+            var response = await http.post(url, body: {'author': appData.text ,'thickness': _thicknessController.text , 'nr_layers': _layersController.text ,'description': _descriptionController.text ,});
             print('Response status: ${response.statusCode}');
             print('Response body: ${response.body}');
             if (response.statusCode == 200) { String responseBody = response.body; var responseJSON = json.decode(responseBody);
-              bool success = responseJSON['success']; int _newid = responseJSON['id'];
+              bool success = responseJSON['success']; int _newid = responseJSON['id']; probeId.text = _newid.toString(); print(probeId.text);
               if ( success == true) { showDialog( barrierDismissible: false, context: context,builder: (BuildContext context) => _popupscreen1(context),); }
               else{showDialog(context: context,builder: (BuildContext context) => _popupscreen3(context),);}  }
             else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}  }; }, ),),    ],),),);      }
@@ -89,13 +96,13 @@ class GenerateScreenState extends State<GenerateScreen> {
     Widget _popupscreen1(BuildContext context,) {
     return new WillPopScope(
     onWillPop: () async => false,
-    child: new AlertDialog( title: Center(child:Text('Data upload Complete!'),),
+    child: new AlertDialog( backgroundColor: Colors.grey[600],
+      title: Center(child:Text('Data upload Complete!'),),
       titleTextStyle: TextStyle(fontSize: 24, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       contentTextStyle: TextStyle(fontSize: 18),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: new Container(width: 290.0, height: 260.0, decoration: new BoxDecoration(
       shape: BoxShape.rectangle,
-      color: const Color(0xFFFFFF),
       borderRadius: new BorderRadius.all(new Radius.circular(32.0)),  ),
     child: new Padding( padding: const EdgeInsets.all(18.0), child:Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,15 +111,17 @@ class GenerateScreenState extends State<GenerateScreen> {
           Center(child:RepaintBoundary(key: globalKey, child: Container(
           padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(color: Colors.white,borderRadius:  BorderRadius.all( Radius.circular(32.0)), ),
-            child:QrImage(data: _newid.toString(), size: 100 ,),),),), ],),),),
+            child:QrImage(data: probeId.text, size: 100 ,),),),), ],),),),
     actions: <Widget>[ StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
       IconButton(icon: Icon(Icons.print),onPressed: () { _captureAndSharePng(); setState(() {visibility = true;});},),
-      Visibility(visible: visibility, child:FlatButton(onPressed: () {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);},
+      Visibility(visible: visibility, child:FlatButton(onPressed: ()
+        {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);},
         child: const Text('Return to Home Page'),),), ],); }),],   ), );    }
 
     Widget _popupscreen2(BuildContext context) {
-    return new AlertDialog(title: Center(child:Text('Data upload rejected. Please try again'),),
+    return new AlertDialog( backgroundColor: Colors.grey[600],
+        title: Center(child:Text('Data upload rejected. Please try again'),),
         titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
@@ -121,7 +130,8 @@ class GenerateScreenState extends State<GenerateScreen> {
           child: const Text('Got it'),),],);    }
 
     Widget _popupscreen3(BuildContext context) {
-    return new AlertDialog( title: Center(child:Text('Error'),),
+    return new AlertDialog( backgroundColor: Colors.grey[600],
+        title: Center(child:Text('Error'),),
         titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
