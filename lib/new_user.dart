@@ -22,7 +22,7 @@ class _NewUserState extends State<NewUser> {
 
   _contentWidget() {
   final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
-  return Form(key: _formKey, autovalidate: _autoValidate,  child:Column(mainAxisAlignment: MainAxisAlignment.center,
+  return Form(key: _formKey, autovalidate: _autoValidate,  child:ListView(
   children: <Widget>[
   Container(padding: const EdgeInsets.all(12),
       child:TextFormField(controller: _first_name, validator: validateFirstName,
