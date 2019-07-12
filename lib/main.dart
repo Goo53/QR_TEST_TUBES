@@ -6,6 +6,8 @@ import 'package:testwidgets1_0/scan.dart';
 import 'package:testwidgets1_0/generate.dart';
 import 'package:testwidgets1_0/login.dart';
 import 'package:testwidgets1_0/new_user.dart';
+import 'package:testwidgets1_0/add_comment.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -30,5 +32,6 @@ class MyApp extends StatelessWidget {
                 '/new_user': (BuildContext context) => NewUser(),
                 '/scan': (BuildContext context) => ScanScreen(),
                 '/generate': (BuildContext context) => GenerateScreen(),
+                '/comment' : (BuildContext context) => AddComment(),
                       },
             );});}}
