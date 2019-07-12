@@ -32,15 +32,17 @@ Map<String, dynamic> _$DataBitsToJson(DataBits instance) => <String, dynamic>{
 
 Comment _$CommentFromJson(Map<String, dynamic> json) {
   return Comment(
-      commentId: json['commentId'] as int,
-      commentAuthor: json['commentAuthor'] as String,
-      commentCreated_at: json['commentCreated_at'] as String,
-      commentDescription: json['commentDescription'] as String);
+      id: json['id'] as int,
+      probe_id: json['probe_id'] as int,
+      author: json['author'] as String,
+      created_at: json['created_at'] as String,
+      comment: json['comment'] as String);
 }
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
-      'commentId': instance.commentId,
-      'commentAuthor': instance.commentAuthor,
-      'commentCreated_at': instance.commentCreated_at,
-      'commentDescription': instance.commentDescription
+      'id': instance.id,
+      'probe_id': instance.probe_id,
+      'author': instance.author,
+      'created_at': instance.created_at,
+      'comment': instance.comment
     };

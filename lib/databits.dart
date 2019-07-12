@@ -22,12 +22,13 @@ class DataBits {
 @JsonSerializable()
 
 class Comment {
-  final int commentId;
-  final String commentAuthor;
-  final String commentCreated_at;
-  final String commentDescription;
+  final int id;
+  final int probe_id;
+  final String author;
+  final String created_at;
+  final String comment;
 
-  Comment({this.commentId,this.commentAuthor, this.commentCreated_at, this.commentDescription});
+  Comment({this.id, this.probe_id, this.author, this.created_at, this.comment});
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
   Map<String, dynamic> toJson() => _$CommentToJson(this);

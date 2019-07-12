@@ -9,15 +9,16 @@ import 'package:http/http.dart' as http;
 import 'package:testwidgets1_0/appdata.dart';
 import 'package:testwidgets1_0/databits.dart';
 import 'package:testwidgets1_0/datainfo.dart';
+import 'package:testwidgets1_0/add_comment.dart';
 
 
 class ScanScreen extends StatefulWidget {@override  _ScanState createState() => new _ScanState(); }
 class _ScanState extends State<ScanScreen> {
   String barcode = "";
-  //List list = List();
   var tcVisibility = false;
   var tcVisibility1 = false;
   var isLoading = false;
+  List _comments = new List();
 
   @override initState() {super.initState();  }
   @override
@@ -48,7 +49,18 @@ class _ScanState extends State<ScanScreen> {
                     Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.description}',style: TextStyle(fontSize: 16)),),],),),
                     Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.nr_layers}',style: TextStyle(fontSize: 16)),),],),),
                     Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.thickness}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Comments: ',style: TextStyle(fontSize: 20)),Expanded( flex: 1, child:new SingleChildScrollView(child: new Text('${dataInfo.comments}',style: TextStyle(fontSize: 16)),),),],),),        ],), ),)  ),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Comments: ',style: TextStyle(fontSize: 20)),],),),
+
+                    ListView.separated(shrinkWrap: true,padding: const EdgeInsets.all(22.0), itemCount: _comments.length,
+                      itemBuilder: (BuildContext context, int index){return Container(child:Center(child:Column(children: <Widget>[
+                        Row(children: <Widget>[Text('Created at: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].created_at}',style: TextStyle(fontSize: 16)),),],),
+                        Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].author}',style: TextStyle(fontSize: 16)),),],),
+                        Row(children: <Widget>[Text('Comment: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].comment}',style: TextStyle(fontSize: 16)),),],),
+                          ],),),);}, separatorBuilder: (BuildContext context, int index) => const Divider(),),
+
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                      child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),onPressed: () {Navigator.of(context).pushNamed('/comment',);},
+                      child: const Text('Add comment')),), ],), ),)  ),),
 
         Container( child: new Row(children: <Widget>[
           Padding( padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
@@ -71,7 +83,7 @@ class _ScanState extends State<ScanScreen> {
             dataInfo.id = list.id;  dataInfo.author = list.author;
             dataInfo.created_at = list.created_at;  dataInfo.description = list.description;
             dataInfo.thickness = list.thickness;  dataInfo.nr_layers = list.nr_layers;
-            dataInfo.comments = list.comments;
+            _comments = list.comments ;
           }
       else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}   }
 

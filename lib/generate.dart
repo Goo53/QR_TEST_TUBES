@@ -111,7 +111,7 @@ class GenerateScreenState extends State<GenerateScreen> {
           Center(child:RepaintBoundary(key: globalKey, child: Container(
           padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(color: Colors.white,borderRadius:  BorderRadius.all( Radius.circular(32.0)), ),
-            child:QrImage(data: probeId.text, size: 100 ,),),),), ],),),),
+            child:QrImage(data: probeId.text, size: 120 ,),),),), ],),),),
     actions: <Widget>[ StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
       IconButton(icon: Icon(Icons.print),onPressed: () { _captureAndSharePng(); setState(() {visibility = true;});},),
