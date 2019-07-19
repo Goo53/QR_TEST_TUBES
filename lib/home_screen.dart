@@ -57,4 +57,5 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text('CREATE NEW QR CODE',style: TextStyle(fontSize: 20) ),),),
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
-          onPressed: null,child: Text('login2',style: TextStyle(fontSize: 20) ),),),      ],),),);} }
+          onPressed: () {Navigator.of(context).pushNamed('/list_all',);},
+          child: Text('DataBase',style: TextStyle(fontSize: 20) ),),),      ],),),);} }

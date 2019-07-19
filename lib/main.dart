@@ -7,7 +7,7 @@ import 'package:QR_Test_Tubes/generate.dart';
 import 'package:QR_Test_Tubes/login.dart';
 import 'package:QR_Test_Tubes/new_user.dart';
 import 'package:QR_Test_Tubes/add_comment.dart';
-
+import 'package:QR_Test_Tubes/list_all.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,5 +33,6 @@ class MyApp extends StatelessWidget {
                 '/scan': (BuildContext context) => ScanScreen(),
                 '/generate': (BuildContext context) => GenerateScreen(),
                 '/comment' : (BuildContext context) => AddComment(),
+                '/list_all': (BuildContext context) => ListAll(),
                       },
             );});}}
