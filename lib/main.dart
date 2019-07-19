@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:testwidgets1_0/home_screen.dart';
+import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:testwidgets1_0/theme_switcher_widgets.dart';
-import 'package:testwidgets1_0/scan.dart';
-import 'package:testwidgets1_0/generate.dart';
-import 'package:testwidgets1_0/login.dart';
-import 'package:testwidgets1_0/new_user.dart';
-import 'package:testwidgets1_0/add_comment.dart';
+import 'package:QR_Test_Tubes/theme_switcher_widgets.dart';
+import 'package:QR_Test_Tubes/scan.dart';
+import 'package:QR_Test_Tubes/generate.dart';
+import 'package:QR_Test_Tubes/login.dart';
+import 'package:QR_Test_Tubes/new_user.dart';
+import 'package:QR_Test_Tubes/add_comment.dart';
 
 
 void main() => runApp(MyApp());

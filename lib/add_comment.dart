@@ -8,10 +8,10 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:testwidgets1_0/home_screen.dart';
-import 'package:testwidgets1_0/appdata.dart';
+import 'package:QR_Test_Tubes/home_screen.dart';
+import 'package:QR_Test_Tubes/appdata.dart';
 import 'dart:convert';
-import 'package:testwidgets1_0/datainfo.dart';
+import 'package:QR_Test_Tubes/datainfo.dart';
 
 
 class AddComment extends StatefulWidget {@override State<StatefulWidget> createState() => AddCommentState();}

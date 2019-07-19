@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:testwidgets1_0/home_screen.dart';
+import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:testwidgets1_0/appdata.dart';
-import 'package:testwidgets1_0/databits.dart';
-import 'package:testwidgets1_0/datainfo.dart';
-import 'package:testwidgets1_0/add_comment.dart';
+import 'package:QR_Test_Tubes/appdata.dart';
+import 'package:QR_Test_Tubes/databits.dart';
+import 'package:QR_Test_Tubes/datainfo.dart';
+import 'package:QR_Test_Tubes/add_comment.dart';
 
 
 class ScanScreen extends StatefulWidget {@override  _ScanState createState() => new _ScanState(); }
@@ -79,12 +79,16 @@ class _ScanState extends State<ScanScreen> {
       if (response.statusCode == 200) {
         setState(() { isLoading = false; tcVisibility= false;});
         final jsonResponse = json.decode(response.body);
+        bool success = jsonResponse['success'];
+        if (success = true) {
+        print(response.body);
           DataBits list = new DataBits.fromJson(jsonResponse);
             dataInfo.id = list.id;  dataInfo.author = list.author;
             dataInfo.created_at = list.created_at;  dataInfo.description = list.description;
             dataInfo.thickness = list.thickness;  dataInfo.nr_layers = list.nr_layers;
             _comments = list.comments ;
           }
+        else {showDialog(context: context,builder: (BuildContext context) => _popupscreen1(context),);}  }
       else {showDialog(context: context,builder: (BuildContext context) => _popupscreen2(context),);}   }
 
   Future scan() async {
@@ -98,6 +102,15 @@ class _ScanState extends State<ScanScreen> {
       setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');  }
     catch (e) {setState(() => this.barcode = 'Unknown error: $e');  }   }
 
+    Widget _popupscreen1(BuildContext context) {
+    return new AlertDialog( backgroundColor: Colors.grey[600],
+        title: Center(child:Text('Error'),),
+        titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+        content: Text('Missing entry.'),
+        actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
+          child: const Text('Got it'),),],);    }
 
     Widget _popupscreen2(BuildContext context) {
     return new AlertDialog( backgroundColor: Colors.grey[600],
@@ -105,7 +118,7 @@ class _ScanState extends State<ScanScreen> {
         titleTextStyle: TextStyle(fontSize: 20, ),titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),contentTextStyle: TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        content: Text('Missing entry or could not reach database. Try again or contact administrator.'),
+        content: Text('Could not reach database. Try again or contact administrator.'),
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },
           child: const Text('Got it'),),],);    }
 

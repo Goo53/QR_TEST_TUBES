@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:testwidgets1_0/appdata.dart';
+import 'package:QR_Test_Tubes/appdata.dart';
 import 'package:http/http.dart' as http;
-import 'package:testwidgets1_0/home_screen.dart';
-import 'package:testwidgets1_0/new_user.dart';
+import 'package:QR_Test_Tubes/home_screen.dart';
+import 'package:QR_Test_Tubes/new_user.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 

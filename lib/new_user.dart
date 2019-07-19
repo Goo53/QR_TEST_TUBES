@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:testwidgets1_0/login.dart';
+import 'package:QR_Test_Tubes/login.dart';
 import 'dart:convert';
 
 class NewUser extends StatefulWidget {static String tag = 'new-user';@override _NewUserState createState() => new _NewUserState();}
