@@ -25,13 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Container(padding: const EdgeInsets.all(32),
           child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
           onPressed:() {Navigator.of(context).pushNamedAndRemoveUntil('/log_in', (Route<dynamic> route) => false);},
-          child: Text('Log out',style: TextStyle(fontSize: 20) ),),),
-    Container(padding: const EdgeInsets.all(32),
-          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: null,
-          child: Text('login2',style: TextStyle(fontSize: 20) ),),),
-    Container(padding: const EdgeInsets.all(32),
-          child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)), onPressed: null,
-          child: Text('Whatever',style: TextStyle(fontSize: 20) ),),),  ],),),);},),);  }
+          child: Text('Log out',style: TextStyle(fontSize: 20) ),),),     ],),),);},),);  }
 
   void showChooser() {showDialog<void>(context: context,builder: (context) {
     return BrightnessSwitcherDialog(onSelectedTheme: (brightness) {DynamicTheme.of(context).setBrightness(brightness);},);});}
@@ -58,4 +52,4 @@ class _HomeScreenState extends State<HomeScreen> {
       Container(padding: const EdgeInsets.all(32),
         child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
           onPressed: () {Navigator.of(context).pushNamed('/list_all',);},
-          child: Text('DataBase',style: TextStyle(fontSize: 20) ),),),      ],),),);} }
+          child: Text('DATABASE',style: TextStyle(fontSize: 20) ),),),      ],),),);} }
