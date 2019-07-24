@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'package:QR_Test_Tubes/login.dart';
 import 'dart:convert';
 
 class NewUser extends StatefulWidget {static String tag = 'new-user';@override _NewUserState createState() => new _NewUserState();}
@@ -21,7 +19,6 @@ class _NewUserState extends State<NewUser> {
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
 
   _contentWidget() {
-  final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate,  child:ListView(
   children: <Widget>[
   Container(padding: const EdgeInsets.all(12),

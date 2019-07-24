@@ -1,14 +1,9 @@
 import 'package:QR_Test_Tubes/tubeslist.dart';
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:QR_Test_Tubes/home_screen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:QR_Test_Tubes/appdata.dart';
 import 'package:QR_Test_Tubes/databits.dart';
 import 'package:QR_Test_Tubes/datainfo.dart';
-import 'package:QR_Test_Tubes/add_comment.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 

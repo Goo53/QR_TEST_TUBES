@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:QR_Test_Tubes/theme_switcher_widgets.dart';
 import 'package:QR_Test_Tubes/scan.dart';
 import 'package:QR_Test_Tubes/generate.dart';
 import 'package:QR_Test_Tubes/login.dart';

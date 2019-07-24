@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:QR_Test_Tubes/appdata.dart';
 import 'package:http/http.dart' as http;
-import 'package:QR_Test_Tubes/home_screen.dart';
-import 'package:QR_Test_Tubes/new_user.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 
 class LogIn extends StatefulWidget {static String tag = 'login-page';@override _LogInState createState() => new _LogInState();}
@@ -19,7 +16,6 @@ class _LogInState extends State<LogIn> {
 
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
   _contentWidget() {
-  final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate, child:Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
   Container(padding: const EdgeInsets.all(12),
       child:TextFormField(controller: _email, validator: validateEmail,

@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:QR_Test_Tubes/appdata.dart';
 import 'dart:convert';
 import 'package:QR_Test_Tubes/datainfo.dart';
@@ -19,9 +18,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 class AddComment extends StatefulWidget {@override State<StatefulWidget> createState() => AddCommentState();}
 
 class AddCommentState extends State<AddComment> {
-  static const double _topSectionTopPadding = 50.0;
-  static const double _topSectionBottomPadding = 20.0;
-  static const double _topSectionHeight = 50.0;
 
   GlobalKey globalKey = new GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

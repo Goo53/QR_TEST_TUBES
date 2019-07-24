@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:QR_Test_Tubes/theme_switcher_widgets.dart';
-import 'package:QR_Test_Tubes/scan.dart';
-import 'package:QR_Test_Tubes/generate.dart';
-import 'package:QR_Test_Tubes/login.dart';
 import 'package:flutter/rendering.dart';
-import 'package:QR_Test_Tubes/appdata.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);

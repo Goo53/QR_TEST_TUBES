@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:QR_Test_Tubes/appdata.dart';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -24,9 +23,6 @@ final probeId = ProbeId();
 class GenerateScreen extends StatefulWidget {@override State<StatefulWidget> createState() => GenerateScreenState();}
 
 class GenerateScreenState extends State<GenerateScreen> {
-  static const double _topSectionTopPadding = 50.0;
-  static const double _topSectionBottomPadding = 20.0;
-  static const double _topSectionHeight = 50.0;
 
   GlobalKey globalKey = new GlobalKey();
   int _newid;
@@ -56,7 +52,6 @@ class GenerateScreenState extends State<GenerateScreen> {
 
   _contentWidget() {
 
-  final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
