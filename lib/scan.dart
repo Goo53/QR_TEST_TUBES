@@ -10,7 +10,7 @@ import 'package:QR_Test_Tubes/appdata.dart';
 import 'package:QR_Test_Tubes/databits.dart';
 import 'package:QR_Test_Tubes/datainfo.dart';
 import 'package:QR_Test_Tubes/add_comment.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ScanScreen extends StatefulWidget {@override  _ScanState createState() => new _ScanState(); }
 class _ScanState extends State<ScanScreen> {
@@ -43,34 +43,40 @@ class _ScanState extends State<ScanScreen> {
                 isLoading ?
                   Center(child:CircularProgressIndicator(),)
                 : Padding( padding: const EdgeInsets.all(18.0), child:Center(child:Column(children: <Widget>[
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Probe ID: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.id}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child: Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.author}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.created_at}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.description}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.nr_layers}',style: TextStyle(fontSize: 16)),),],),),
-                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${dataInfo.thickness}',style: TextStyle(fontSize: 16)),),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Probe ID: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${dataInfo.id}',style: TextStyle(fontSize: 16)),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child: Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 20)),Spacer(),AutoSizeText('${dataInfo.author}',maxLines:1,),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${dataInfo.created_at}',style: TextStyle(fontSize: 16)),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Number of layers: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${dataInfo.nr_layers}',style: TextStyle(fontSize: 16)),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${dataInfo.thickness}',style: TextStyle(fontSize: 16)),],),),
+                    Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 20)),Spacer(),],),),
+                    Container(padding: const EdgeInsets.all(12),child: ConstrainedBox(constraints: BoxConstraints(maxHeight: 300.0,), child: new Scrollbar(
+                          child:SingleChildScrollView(scrollDirection: Axis.vertical, reverse: true,
+                              child: AutoSizeText('${dataInfo.description}',maxLines: 6,style: TextStyle(fontSize: 16)),  ),),), ),
                     Padding( padding: const EdgeInsets.all(8.0), child:Row(children: <Widget>[Text('Comments: ',style: TextStyle(fontSize: 20)),],),),
 
-                    ListView.separated(shrinkWrap: true,padding: const EdgeInsets.all(22.0), itemCount: _comments.length,
+                    ListView.separated(physics: NeverScrollableScrollPhysics(),shrinkWrap: true,padding: const EdgeInsets.all(22.0), itemCount: _comments.length,
                       itemBuilder: (BuildContext context, int index){return Container(child:Center(child:Column(children: <Widget>[
-                        Row(children: <Widget>[Text('Created at: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].created_at}',style: TextStyle(fontSize: 16)),),],),
-                        Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].author}',style: TextStyle(fontSize: 16)),),],),
-                        Row(children: <Widget>[Text('Comment: ',style: TextStyle(fontSize: 20)),Expanded(child:Text('${_comments[index].comment}',style: TextStyle(fontSize: 16)),),],),
+                        Row(children: <Widget>[Text('Created at: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${_comments[index].created_at}',style: TextStyle(fontSize: 16)),],),
+                        Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 20)),Spacer(),Text('${_comments[index].author}',style: TextStyle(fontSize: 16)),],),
+                        Row(children: <Widget>[Text('Comment: ',style: TextStyle(fontSize: 20)),Spacer(),],),
+                        Container(padding: const EdgeInsets.all(12),child: ConstrainedBox(constraints: BoxConstraints(maxHeight: 300.0,), child: new Scrollbar(
+                              child:SingleChildScrollView(scrollDirection: Axis.vertical, reverse: true,
+                                  child: AutoSizeText('${_comments[index].comment}',maxLines: 6,style: TextStyle(fontSize: 16)),  ),),), ),
                           ],),),);}, separatorBuilder: (BuildContext context, int index) => const Divider(),),
 
                     Padding(padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                       child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),onPressed: () {Navigator.of(context).pushNamed('/comment',);},
                       child: const Text('Add comment')),), ],), ),)  ),),
 
-        Container( child: new Row(children: <Widget>[
-          Padding( padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
+        Container(child: new Row(children: <Widget>[
+          Padding( padding: EdgeInsets.symmetric(horizontal: 44.0, vertical: 16.0),
             child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),
             onPressed:() {Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);},
             child: const Text('HOME SCREEN')),),
 
           Padding(padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),onPressed: scan,
-            child: const Text('START CAMERA SCAN')),),],),),   ], ),  ));  }
+            child: const Text('START SCAN')),),],),),   ], ),  ));  }
 
   Future fetchData() async{
     setState(() { tcVisibility1 = true; isLoading =true;});

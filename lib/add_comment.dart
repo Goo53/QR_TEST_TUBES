@@ -12,6 +12,8 @@ import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:QR_Test_Tubes/appdata.dart';
 import 'dart:convert';
 import 'package:QR_Test_Tubes/datainfo.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 
 class AddComment extends StatefulWidget {@override State<StatefulWidget> createState() => AddCommentState();}
@@ -38,10 +40,10 @@ class AddCommentState extends State<AddComment> {
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
           padding: const EdgeInsets.all(20.0),
           children: <Widget>[
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
-            Expanded(child:  Text(appData.text ,style: TextStyle(fontSize: 16)),),],),),
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Probe ID: ',style: TextStyle(fontSize: 16) ),
-            Expanded(child:  Text('${dataInfo.id}' ,style: TextStyle(fontSize: 16)),),],),),
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),Spacer(),
+            AutoSizeText(appData.text ,maxLines:1,style: TextStyle(fontSize: 16)),],),),
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Probe ID: ',style: TextStyle(fontSize: 16) ),Spacer(),
+            AutoSizeText('${dataInfo.id}' ,maxLines:1, style: TextStyle(fontSize: 16)),],),),
     Container(padding: const EdgeInsets.all(12),child: ConstrainedBox(constraints: BoxConstraints(maxHeight: 300.0,), child: new Scrollbar(
           child:SingleChildScrollView(scrollDirection: Axis.vertical, reverse: true,
               child: TextFormField(maxLines: null, controller: _commentController, validator: validateComment,

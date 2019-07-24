@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               ),
           themedWidgetBuilder: (context, theme) {
             return MaterialApp(
-              title: 'QR test-tubes managment',
+              title: 'QR Test Tubes',
               theme: theme,
               home: LogIn(),
               initialRoute: '/',

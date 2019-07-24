@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:QR_Test_Tubes/home_screen.dart';
 import 'package:QR_Test_Tubes/appdata.dart';
 import 'dart:convert';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProbeId {
   static final ProbeId _probeId = new ProbeId._internal();
@@ -59,11 +60,11 @@ class GenerateScreenState extends State<GenerateScreen> {
   return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  Text(appData.text ,style: TextStyle(fontSize: 16)),),],),),
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),Spacer(),
+        AutoSizeText(appData.text ,maxLines:1,style: TextStyle(fontSize: 16)),],),),
 
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Creation date: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  Text('$now' ,style: TextStyle(fontSize: 16)),),],),),
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Date: ',style: TextStyle(fontSize: 16) ),Spacer(),
+        AutoSizeText('$now' ,maxLines:1,),],),),
 
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Thickness: ',style: TextStyle(fontSize: 16) ),
         Expanded(child:  TextFormField( controller: _thicknessController, validator: validateThickness,
@@ -75,9 +76,11 @@ class GenerateScreenState extends State<GenerateScreen> {
             keyboardType: TextInputType.number, inputFormatters: [BlacklistingTextInputFormatter(new RegExp('[\\-|\\ ]'))],
             decoration: const InputDecoration(hintText: 'e.g. 35',),)),],),),
 
-    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),
-        Expanded(child:  TextFormField(controller: _descriptionController, validator: validateDescription,
-            decoration: const InputDecoration(hintText: 'Place your comment here',),)),],),),
+    Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Description: ',style: TextStyle(fontSize: 16) ),Spacer(),  ],),),
+    Container(padding: const EdgeInsets.all(12),child: ConstrainedBox(constraints: BoxConstraints(maxHeight: 300.0,), child: new Scrollbar(
+          child:SingleChildScrollView(scrollDirection: Axis.vertical, reverse: true,
+              child: TextFormField(maxLines: null, controller: _descriptionController, validator: validateDescription,
+                decoration: const InputDecoration(hintText: 'Place your comment here',),),),),), ),
 
     Padding(padding: const EdgeInsets.all(16.0),
         child:  FlatButton(

@@ -16,8 +16,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="qr_scanner_generator"
-        android:icon="@mipmap/ic_launcher">
+        android:label="QR Test Tubes"
+        android:icon="@mipmap/launcher_icon">
         <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
 
 
