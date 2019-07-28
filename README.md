@@ -1,5 +1,5 @@
 # QR_Test_Tubes
-Goal: Help to manage test-tubes in laboratory with printable QR codes connected to editable database.
+Information managment system in laboratory with use of mobile app (QR code generator,scanner & database)
 
 ## Inspiration
 
@@ -11,8 +11,5 @@ Scanner, Creator: https://github.com/alfianlosari/flutter_qr_code_scanner_genera
 - Backend is work of my coworker from university and due to it's specification http request are based on response code '200' and phrase 'success';
 - Id is now added on server side;
 - Sharing 'login' through pages of app with static class in AppData;
-- Colors of AlertDialogs are final and implemented in each in favor to overcome problem on android devices (in light theme text is invincible due to it's white colour [the same as background]);
+- Colors of AlertDialogs are final in favor to overcome common problem on android devices (in light theme text is invincible due to it's white colour);
 
-# Problems:
-
-- 'Listing all probes' script doesn't work properly and on front I might have problems with lists and maps from json response (previous model of static class may not work for many objects);
