@@ -16,7 +16,7 @@ class _NewUserState extends State<NewUser> {
   bool passwordVisible = true;
   bool passwordVisible1 = true;
 
-  Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
+  Widget build(BuildContext context) {return Scaffold(appBar: AppBar(centerTitle: true,title: Text('Create new user'),), body: _contentWidget(),  );}
 
   _contentWidget() {
   return Form(key: _formKey, autovalidate: _autoValidate,  child:ListView(

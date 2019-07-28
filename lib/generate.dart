@@ -39,7 +39,7 @@ class GenerateScreenState extends State<GenerateScreen> {
   var now = new DateTime.now();
 
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),),
+    return Scaffold(appBar: AppBar(centerTitle: true,title: Text('Generator'),),
       body: _contentWidget(),  );}
 
   Future<void> _captureAndSharePng() async {

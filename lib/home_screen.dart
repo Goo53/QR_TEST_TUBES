@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _settings(){
   Navigator.of(context).push(
     MaterialPageRoute<void>( builder: (BuildContext context) { return
-  Scaffold(appBar: AppBar(title: Text('Settings'),),
+  Scaffold(appBar: AppBar(centerTitle: true,title: Text('Settings'),),
     body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
     Container(padding: const EdgeInsets.all(32),
           child: RaisedButton(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(32.0)),  onPressed: showChooser,
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
 
   Widget build(BuildContext context) {
-  return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),
+  return Scaffold(appBar: AppBar(centerTitle: true,title: Text('QR tubes'),
         actions: <Widget> [IconButton(icon: Icon(Icons.settings), onPressed: _settings),],),
     body: Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center,

@@ -20,8 +20,8 @@ class _ScanState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: new AppBar(
-    title: new Text('QR Code Scanner'),),
+    appBar: new AppBar(centerTitle: true,
+    title: new Text('Scanner'),),
     body: new Center(
       child: new ListView(children: <Widget>[
         Visibility(visible: tcVisibility, child:AlertDialog(backgroundColor: Colors.grey[600],

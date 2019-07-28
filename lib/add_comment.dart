@@ -28,7 +28,7 @@ class AddCommentState extends State<AddComment> {
   @override
 
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('QR Code Generator'),),
+    return Scaffold(appBar: AppBar(centerTitle: true,title: Text('Add comment'),),
       body: _contentWidget(),  );}
       _contentWidget() {
 

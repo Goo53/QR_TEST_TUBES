@@ -14,7 +14,7 @@ class _LogInState extends State<LogIn> {
   bool passwordVisible = true;
   //@override void initState() {_passwordVisible = false;  super.initState();}
 
-  Widget build(BuildContext context) {return Scaffold(appBar: AppBar(title: Text('QR test-tubes managment'),), body: _contentWidget(),  );}
+  Widget build(BuildContext context) {return Scaffold(appBar: AppBar(centerTitle: true,title: Text('QR tubes'),), body: _contentWidget(),  );}
   _contentWidget() {
   return Form(key: _formKey, autovalidate: _autoValidate, child:Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
   Container(padding: const EdgeInsets.all(12),
