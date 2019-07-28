@@ -16,7 +16,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="QR Test Tubes"
+        android:label="QR Tubes"
         android:icon="@mipmap/launcher_icon">
         <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
 
@@ -42,7 +42,7 @@
         </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="me.alfian.share"
             android:exported="false"
             android:grantUriPermissions="true">
