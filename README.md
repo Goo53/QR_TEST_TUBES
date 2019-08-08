@@ -1,7 +1,7 @@
 # QR_Test_Tubes
 Information managment system in laboratory with use of mobile app (QR code generator,scanner & database)
 
-<p align="center"> ![](qrtubes.gif) </p>
+<p align="center"> <img src="qrtubes.gif" /> </p>
 
 ## Inspiration
 
