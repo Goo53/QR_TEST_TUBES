@@ -1,6 +1,8 @@
 # QR_Test_Tubes
 Information managment system in laboratory with use of mobile app (QR code generator,scanner & database)
 
+![](qrtubes.gif)
+
 ## Inspiration
 
 Dynamic Theme: https://pub.dev/packages/dynamic_theme
