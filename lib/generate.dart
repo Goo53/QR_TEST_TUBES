@@ -31,7 +31,7 @@ class GenerateScreenState extends State<GenerateScreen> {
   final _layersController = TextEditingController() ;
   final _descriptionController = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _autoValidate = true;
+  bool _autoValidate = false;
   var visibility = false;
 
 
@@ -52,7 +52,8 @@ class GenerateScreenState extends State<GenerateScreen> {
 
   _contentWidget() {
 
-  return Form(key: _formKey, autovalidate: _autoValidate, child: Center(child: ListView(shrinkWrap: true,
+  return Form(key: _formKey, autovalidate: _autoValidate, child:GestureDetector(onTap: () {setState(() { _autoValidate = true; });  },
+    child: ListView(shrinkWrap: true,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
     Container(padding: const EdgeInsets.all(12),child:  Row(children: <Widget>[Text('Author: ',style: TextStyle(fontSize: 16) ),Spacer(),
@@ -144,7 +145,7 @@ class GenerateScreenState extends State<GenerateScreen> {
         if (value.length < 1)  {return 'Digits only';}
         else  {return null;  }}
     String validateDescription(String value) {
-        if (value.length < 1)  {return 'Enter description';}
+        if (value.length < 10)  {return 'Enter description';}
         else  {return null;  }}
 
 }

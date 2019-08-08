@@ -10,13 +10,18 @@ class _LogInState extends State<LogIn> {
   final _email = TextEditingController() ;
   final _password = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _autoValidate = true;
+  bool _autoValidate = false;
   bool passwordVisible = true;
-  //@override void initState() {_passwordVisible = false;  super.initState();}
 
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(centerTitle: true,title: Text('QR tubes'),), body: _contentWidget(),  );}
   _contentWidget() {
   return Form(key: _formKey, autovalidate: _autoValidate, child:Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+  GestureDetector(
+      onTap: () {
+        setState(() { _autoValidate = true; });
+      },
+      child:
+      Column(children: <Widget>[
   Container(padding: const EdgeInsets.all(12),
       child:TextFormField(controller: _email, validator: validateEmail,
       decoration: InputDecoration(hintText: 'Email', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -26,7 +31,7 @@ class _LogInState extends State<LogIn> {
       decoration: InputDecoration(hintText: 'Password', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       suffixIcon: IconButton(icon: Icon(passwordVisible ? Icons.visibility : Icons.visibility_off,),
-        onPressed: () { setState(() {passwordVisible = !passwordVisible; }); },),  ),),),
+        onPressed: () { setState(() {passwordVisible = !passwordVisible; }); },),  ),),), ],),),
 
   Padding(padding: const EdgeInsets.all(16.0),child:  FlatButton(child:  Text("Log In", style: TextStyle(fontSize: 24)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),

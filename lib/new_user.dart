@@ -12,15 +12,15 @@ class _NewUserState extends State<NewUser> {
   final _newpassword = TextEditingController() ;
   final _newpassword1 = TextEditingController() ;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _autoValidate = true;
+  bool _autoValidate = false;
   bool passwordVisible = true;
   bool passwordVisible1 = true;
 
   Widget build(BuildContext context) {return Scaffold(appBar: AppBar(centerTitle: true,title: Text('Create new user'),), body: _contentWidget(),  );}
 
   _contentWidget() {
-  return Form(key: _formKey, autovalidate: _autoValidate,  child:ListView(
-  children: <Widget>[
+  return Form(key: _formKey, autovalidate: _autoValidate,  child:GestureDetector(onTap: () {setState(() { _autoValidate = true; });  },
+    child: ListView(children: <Widget>[
   Container(padding: const EdgeInsets.all(12),
       child:TextFormField(controller: _first_name, validator: validateFirstName,
       decoration: InputDecoration(hintText: 'First name', contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -65,7 +65,7 @@ class _NewUserState extends State<NewUser> {
           else {showDialog(context: context,builder: (BuildContext context) => _popupscreen(context),);}  }
             }  ),),
 
-    ],),);     }
+    ],),),);     }
 
   Widget _popupscreen(BuildContext context) {return new AlertDialog( backgroundColor: Colors.grey[600],
       title: Center(child:Text('Error'),),
@@ -83,10 +83,10 @@ class _NewUserState extends State<NewUser> {
         actions: <Widget>[new FlatButton(onPressed: () {Navigator.of(context).pop(); },),],);    }
 
   String validateFirstName(String value) {
-      if (value.length < 1)  {return 'This cannot be empty!';}
+      if (value.length < 2)  {return 'This cannot be empty!';}
       else  {return null;  }}
   String validateLastName(String value) {
-      if (value.length < 1)  {return 'This cannot be empty!';}
+      if (value.length < 3)  {return 'This cannot be empty!';}
       else  {return null;  }}
   String validateEmail(String value) {
       Pattern pattern =r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
